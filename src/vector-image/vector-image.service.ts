@@ -7,7 +7,9 @@ import {
 } from '@nestjs/common';
 import * as AdmZip from 'adm-zip';
 import * as fs from 'fs';
+import * as path from 'path';
 import { catchError, firstValueFrom, map } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
 import { GetAllVectorImagesDto } from './vector-image.dto';
 
 @Injectable()
@@ -54,12 +56,25 @@ export class VectorImageService {
       const zip = new AdmZip(responseZip.data);
       const zipEntries = zip.getEntries();
       const epsEntry = zipEntries.find((entry) => entry.name.endsWith('.eps'));
-      if (!fs.existsSync('temp')) {
-        fs.mkdirSync('temp');
-      }
-      fs.writeFileSync(`temp/${epsEntry.entryName}`, zip.readFile(epsEntry));
+      const entryId = uuidv4();
+      const converterPath = path.join(
+        __dirname,
+        '..',
+        '..',
+        '..',
+        'converterServer',
+        entryId + '.eps',
+      );
 
-      return new StreamableFile(fs.createReadStream('temp/2299020.svg'));
+      fs.writeFileSync(converterPath, zip.readFile(epsEntry));
+
+      await firstValueFrom(
+        this.httpService.get('http://localhost:1337/' + entryId + '.eps'),
+      );
+
+      return new StreamableFile(
+        fs.createReadStream(converterPath.replace('.eps', '.svg')),
+      );
     } else {
       throw new HttpException(
         {
