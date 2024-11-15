@@ -6,6 +6,7 @@ import {
   StreamableFile,
 } from '@nestjs/common';
 import * as AdmZip from 'adm-zip';
+import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 import { catchError, firstValueFrom, map } from 'rxjs';
@@ -68,8 +69,12 @@ export class VectorImageService {
 
       fs.writeFileSync(converterPath, zip.readFile(epsEntry));
 
-      await firstValueFrom(
-        this.httpService.get('http://localhost:1337/' + entryId + '.eps'),
+      execSync(
+        'cscript "../converterServer/converter.vbs"' +
+          ' ' +
+          converterPath.replaceAll('\\', '/') +
+          ' ' +
+          converterPath.replaceAll('\\', '/').replace('.eps', '.svg'),
       );
 
       return new StreamableFile(
