@@ -20,14 +20,18 @@ export class UserController {
   @ApiOperation({
     summary: 'Получить информацию о пользователе по логину и паролю',
   })
-  async findByCredentials(@Body() credentials: LoginDto): Promise<User> {
+  async findByCredentials(
+    @Body() credentials: LoginDto,
+  ): Promise<{ id: number; name: string }> {
     const { login, password } = credentials;
     return this.userService.findByCredentials(login, password);
   }
 
   @Post()
   @ApiOperation({ summary: 'Создать нового пользователя' })
-  async create(@Body() createUserDto: CreateUserDto): Promise<User> {
+  async create(
+    @Body() createUserDto: CreateUserDto,
+  ): Promise<{ id: number; name: string }> {
     return this.userService.create(createUserDto);
   }
 }
