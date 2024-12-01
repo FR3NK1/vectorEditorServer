@@ -29,6 +29,15 @@ export class ShapeController {
     return this.shapeService.create(createShapeDto);
   }
 
+  @Get('user/:userId')
+  @ApiOperation({ summary: 'Получить все фигуры пользователя по userId' })
+  @ApiParam({ name: 'userId', description: 'ID пользователя', type: Number })
+  async findByUserId(
+    @Param('userId', ParseIntPipe) userId: number,
+  ): Promise<Shape[]> {
+    return this.shapeService.findByUserId(userId);
+  }
+
   @Delete(':userId/:shapeId')
   @ApiOperation({ summary: 'Удалить фигуру у пользователя' })
   @ApiParam({ name: 'userId', description: 'ID пользователя', type: Number })
