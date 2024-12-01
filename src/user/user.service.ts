@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
@@ -11,9 +11,17 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
+  async findByCredentials(login: string, password: string): Promise<User> {
+    const user = await this.userRepository.findOneBy({ login, password });
+    if (!user) {
+      throw new NotFoundException('Пользователь с такими данными не найден');
+    }
+    return user;
+  }
+
   async findAll(): Promise<User[]> {
     try {
-      return await this.userRepository.find({ relations: ['shapes', 'works'] });
+      return await this.userRepository.find();
     } catch (error) {
       throw new Error(`Ошибка получения пользователей: ${error.message}`);
     }
