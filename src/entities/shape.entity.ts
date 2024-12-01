@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { User } from './user.entity';
 
 @Entity()
@@ -18,6 +24,10 @@ export class Shape {
   @Column({ type: 'float' })
   stroke_width: number;
 
-  @ManyToOne(() => User, (user) => user.shapes)
+  @Column()
+  userId: number;
+
+  @ManyToOne(() => User, (user) => user.shapes, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'userId' })
   user: User;
 }

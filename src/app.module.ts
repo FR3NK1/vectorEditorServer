@@ -7,6 +7,7 @@ import { Shape } from './entities/shape.entity';
 import { User } from './entities/user.entity';
 import { Work } from './entities/work.entity';
 import { GoogleFontsModule } from './google-fonts/google-fonts.module';
+import { ShapeModule } from './shape/shape.module';
 import { UserModule } from './user/user.module';
 import { VectorImageModule } from './vector-image/vector-image.module';
 
@@ -15,6 +16,7 @@ import { VectorImageModule } from './vector-image/vector-image.module';
     VectorImageModule,
     GoogleFontsModule,
     UserModule,
+    ShapeModule,
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'sqlite',
