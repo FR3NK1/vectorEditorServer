@@ -10,6 +10,7 @@ import { GoogleFontsModule } from './google-fonts/google-fonts.module';
 import { ShapeModule } from './shape/shape.module';
 import { UserModule } from './user/user.module';
 import { VectorImageModule } from './vector-image/vector-image.module';
+import { WorkModule } from './work/work.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { VectorImageModule } from './vector-image/vector-image.module';
     GoogleFontsModule,
     UserModule,
     ShapeModule,
+    WorkModule,
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'sqlite',
