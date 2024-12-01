@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { WinstonModule } from 'nest-winston';
+import { winstonConfig } from 'winston.config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Shape } from './entities/shape.entity';
@@ -27,6 +29,7 @@ import { WorkModule } from './work/work.module';
       synchronize: true,
     }),
     TypeOrmModule.forFeature([User, Shape, Work]),
+    WinstonModule.forRoot(winstonConfig),
   ],
   controllers: [AppController],
   providers: [AppService],
