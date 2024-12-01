@@ -42,14 +42,11 @@ export class ShapeService {
     return this.shapeRepository.save(newShape);
   }
 
-  async delete(userId: number, shapeId: number): Promise<void> {
-    const shape = await this.shapeRepository.findOneBy({ id: shapeId, userId });
+  async delete(shapeId: number): Promise<void> {
+    const shape = await this.shapeRepository.findOneBy({ id: shapeId });
     if (!shape) {
-      throw new NotFoundException(
-        `Фигура с id ${shapeId} для пользователя с id ${userId} не найдена`,
-      );
+      throw new NotFoundException(`Фигура с id ${shapeId} не найдена`);
     }
-
     await this.shapeRepository.remove(shape);
   }
 }

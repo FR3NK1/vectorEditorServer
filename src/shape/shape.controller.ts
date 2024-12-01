@@ -38,14 +38,10 @@ export class ShapeController {
     return this.shapeService.findByUserId(userId);
   }
 
-  @Delete(':userId/:shapeId')
-  @ApiOperation({ summary: 'Удалить фигуру у пользователя' })
-  @ApiParam({ name: 'userId', description: 'ID пользователя', type: Number })
+  @Delete(':shapeId')
+  @ApiOperation({ summary: 'Удалить фигуру по ID' })
   @ApiParam({ name: 'shapeId', description: 'ID фигуры', type: Number })
-  async delete(
-    @Param('userId', ParseIntPipe) userId: number,
-    @Param('shapeId', ParseIntPipe) shapeId: number,
-  ): Promise<void> {
-    return this.shapeService.delete(userId, shapeId);
+  async delete(@Param('shapeId', ParseIntPipe) shapeId: number): Promise<void> {
+    return this.shapeService.delete(shapeId);
   }
 }
