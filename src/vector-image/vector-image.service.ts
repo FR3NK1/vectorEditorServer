@@ -27,6 +27,24 @@ export class VectorImageService {
           page: dto.page,
           term: dto.name,
         },
+        headers: {
+          Accept:
+            'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+          'Accept-Encoding': 'gzip, deflate, br',
+          'Accept-Language': 'ru',
+          'Cache-Control': 'max-age=0',
+          'Sec-Ch-Ua':
+            '"Microsoft Edge";v="131", "Chromium";v="131", "Not_A_Brand";v="24"',
+          'Sec-Ch-Ua-Mobile': '?0',
+          'Sec-Ch-Ua-Platform': '"Windows"',
+          'Sec-Fetch-Dest': 'document',
+          'Sec-Fetch-Mode': 'navigate',
+          'Sec-Fetch-Site': 'none',
+          'Sec-Fetch-User': '?1',
+          'Upgrade-Insecure-Requests': '1',
+          'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+        },
       })
       .pipe(
         map((response) => response.data),
@@ -45,7 +63,28 @@ export class VectorImageService {
 
   async getResourceById(id: number) {
     const apiUrl = `https://www.freepik.com/api/regular/download?resource=${id}`;
-    const response = await firstValueFrom(this.httpService.get(apiUrl));
+    const response = await firstValueFrom(
+      this.httpService.get(apiUrl, {
+        headers: {
+          Accept:
+            'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+          'Accept-Encoding': 'gzip, deflate, br',
+          'Accept-Language': 'ru',
+          'Cache-Control': 'max-age=0',
+          'Sec-Ch-Ua':
+            '"Microsoft Edge";v="131", "Chromium";v="131", "Not_A_Brand";v="24"',
+          'Sec-Ch-Ua-Mobile': '?0',
+          'Sec-Ch-Ua-Platform': '"Windows"',
+          'Sec-Fetch-Dest': 'document',
+          'Sec-Fetch-Mode': 'navigate',
+          'Sec-Fetch-Site': 'none',
+          'Sec-Fetch-User': '?1',
+          'Upgrade-Insecure-Requests': '1',
+          'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+        },
+      }),
+    );
     console.log(response);
     const zipUrl = response.data.url as string;
     if (zipUrl) {
@@ -60,6 +99,7 @@ export class VectorImageService {
       const entryId = uuidv4();
       const converterPath = path.join(
         __dirname,
+        '..',
         '..',
         '..',
         '..',
